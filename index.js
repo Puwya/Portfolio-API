@@ -10,11 +10,6 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Heroku
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(__dirname + '/dist'));
-}
-
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -35,6 +30,7 @@ app.use('/api/projects', require('./routes/api/Projects'));
 
 // Heroku
 if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(__dirname + '/dist'));
   app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, '/dist', 'index.html'));
   });
